@@ -18,7 +18,7 @@ export class WebhookController {
 
   @Post()
   @HttpCode(HttpStatus.OK)
-  async handleWebhook(@Body() payload: WebhookDto) {
+  async handleWebhook(@Body() payload: any) {
     this.logger.log(`Received webhook: ${JSON.stringify(payload)}`);
     
     try {
@@ -52,7 +52,7 @@ export class WebhookController {
 
   @Post('chat')
   @HttpCode(HttpStatus.OK)
-  async handleChatWebhook(@Body() payload: WebhookDto) {
+  async handleChatWebhook(@Body() payload: any) {
     this.logger.log(`Received chat webhook: ${JSON.stringify(payload)}`);
     
     try {

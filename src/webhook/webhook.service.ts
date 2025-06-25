@@ -5,7 +5,7 @@ import { WebhookDto } from './webhook.controller';
 export class WebhookService {
   private readonly logger = new Logger(WebhookService.name);
 
-  async processWebhook(payload: WebhookDto) {
+  async processWebhook(payload: any) {
     this.logger.log('Processing general webhook...');
     
     // Add your webhook processing logic here
@@ -19,12 +19,13 @@ export class WebhookService {
       originalData: payload.data,
     };
 
+    this.logger.log(`Payload: ${payload}`);
     this.logger.log(`Processed webhook for user: ${processedData.userId}`);
-    
+
     return processedData;
   }
 
-  async processChatWebhook(payload: WebhookDto) {
+  async processChatWebhook(payload: any) {
     this.logger.log('Processing chat webhook...');
     
     // Add your chatbot-specific processing logic here
