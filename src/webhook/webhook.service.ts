@@ -25,28 +25,18 @@ export class WebhookService {
   async processChatWebhook(payload: any) {
     this.logger.log('Processing chat webhook...');
 
-    // ✅ Extract fields from Google Chat payload
-    const messageText = payload.message?.text || payload.argumentText || 'No message';
-    const userId = payload.user?.name || 'unknown-user';
-    const displayName = payload.user?.displayName || 'Anonymous';
-    const sessionId = payload.message?.thread?.name || payload.thread?.name || 'no-session';
-    const spaceId = payload.space?.name || 'no-space';
-    const messageType = payload.type || 'UNKNOWN';
+    const messageText = payload?.message?.text || 'No message';
+    const sender = payload?.user?.displayName || 'User';
 
-    const chatData = {
-      text: "Hi Thanks for contacting bro...",
-      receivedAt: new Date().toISOString(),
-      message: messageText,
-      userId,
-      userDisplayName: displayName,
-      sessionId,
-      spaceId,
-      messageType,
-      processedMessage: this.processChatMessage(messageText),
+    // Simple echo logic
+    const reply = `Hello ${sender}, you said: "${messageText}"`;
+
+    this.logger.log(`Replying with: ${reply}`);
+
+    // ✅ Google Chat requires this structure
+    return {
+      text: reply
     };
-
-    this.logger.log(`Processed chat webhook for user: ${displayName} (${userId})`);
-    return chatData;
   }
 
   // ✅ Message processor (mock logic)
