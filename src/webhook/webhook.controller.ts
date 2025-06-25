@@ -65,12 +65,7 @@ export class WebhookController {
     
     try {
       const result = await this.webhookService.processWebhook(payload);
-      return {
-        success: true,
-        message: 'Webhook processed successfully',
-        data: result,
-        timestamp: new Date().toISOString(),
-      };
+      return result;
     } catch (error) {
       this.logger.error(`Error processing webhook: ${error.message}`);
       return {
