@@ -34,6 +34,7 @@ export class WebhookService {
     const messageType = payload.type || 'UNKNOWN';
 
     const chatData = {
+      text: "Hi Thanks for contacting bro...",
       receivedAt: new Date().toISOString(),
       message: messageText,
       userId,
