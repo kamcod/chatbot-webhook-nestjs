@@ -11,7 +11,7 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
-  const port = process.env.PORT || 8000;
+  const port = process.env.PORT || 5000;
   await app.listen(port);
   console.log(`🚀 Webhook server is running on: http://localhost:${port}`);
   console.log(`📡 Webhook endpoint: http://localhost:${port}/webhook`);
