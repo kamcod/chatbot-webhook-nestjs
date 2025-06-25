@@ -6,7 +6,7 @@ export class WebhookService {
   private readonly logger = new Logger(WebhookService.name);
 
   // ✅ General webhook processor (non-Google Chat)
-  async processWebhook(payload: WebhookDto) {
+  async processWebhook(payload: any) {
     this.logger.log('Processing general webhook...');
 
     const processedData = {
