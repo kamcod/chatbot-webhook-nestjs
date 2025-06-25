@@ -99,12 +99,7 @@ export class WebhookController {
     
     try {
       const result = await this.webhookService.processChatWebhook(payload);
-      return {
-        success: true,
-        message: 'Chat webhook processed successfully',
-        text: result.text,
-        timestamp: new Date().toISOString(),
-      };
+      return result;
     } catch (error) {
       this.logger.error(`Error processing chat webhook: ${error.message}`);
       return {
