@@ -3,12 +3,54 @@ import { WebhookService } from './webhook.service';
 
 // DTO for webhook payload
 export class WebhookDto {
-  message?: string;
+  // For general webhook
+  rawMessage?: string;
   userId?: string;
   sessionId?: string;
   timestamp?: string;
   data?: any;
+
+  // Google Chat specific fields (optional, safely handled)
+  type?: string;
+
+  user?: {
+    name: string; // e.g., users/123456789
+    displayName?: string;
+    email?: string;
+    avatarUrl?: string;
+    type?: string; // HUMAN or BOT
+    domainId?: string;
+  };
+
+  message?: {
+    name: string; // message ID
+    text: string;
+    argumentText?: string;
+    createTime?: string;
+    thread?: {
+      name: string;
+    };
+    space?: {
+      name: string;
+    };
+  };
+
+  space?: {
+    name: string;
+    type?: string;
+    spaceType?: string;
+    spaceHistoryState?: string;
+    spaceThreadingState?: string;
+    singleUserBotDm?: boolean;
+  };
+
+  thread?: {
+    name: string;
+  };
+
+  configCompleteRedirectUrl?: string;
 }
+
 
 @Controller('webhook')
 export class WebhookController {

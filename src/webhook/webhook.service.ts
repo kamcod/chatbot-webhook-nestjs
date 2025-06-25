@@ -5,12 +5,10 @@ import { WebhookDto } from './webhook.controller';
 export class WebhookService {
   private readonly logger = new Logger(WebhookService.name);
 
-  async processWebhook(payload: any) {
+  // ✅ General webhook processor (non-Google Chat)
+  async processWebhook(payload: WebhookDto) {
     this.logger.log('Processing general webhook...');
-    
-    // Add your webhook processing logic here
-    // For example: save to database, trigger notifications, etc.
-    
+
     const processedData = {
       receivedAt: new Date().toISOString(),
       message: payload.message || 'No message provided',
@@ -19,46 +17,45 @@ export class WebhookService {
       originalData: payload.data,
     };
 
-    this.logger.log(`Payload: ${payload}`);
-    this.logger.log(`Processed webhook for user: ${processedData.userId}`);
-
+    this.logger.log(`Processed general webhook for user: ${processedData.userId}`);
     return processedData;
   }
 
+  // ✅ Google Chat webhook processor
   async processChatWebhook(payload: any) {
     this.logger.log('Processing chat webhook...');
-    
-    // Add your chatbot-specific processing logic here
-    // For example: analyze message, generate response, etc.
-    
+
+    // ✅ Extract fields from Google Chat payload
+    const messageText = payload.message?.text || payload.argumentText || 'No message';
+    const userId = payload.user?.name || 'unknown-user';
+    const displayName = payload.user?.displayName || 'Anonymous';
+    const sessionId = payload.message?.thread?.name || payload.thread?.name || 'no-session';
+    const spaceId = payload.space?.name || 'no-space';
+    const messageType = payload.type || 'UNKNOWN';
+
     const chatData = {
       receivedAt: new Date().toISOString(),
-      message: payload.message || 'No message provided',
-      userId: payload.userId || 'anonymous',
-      sessionId: payload.sessionId || 'no-session',
-      messageType: 'chat',
-      // Add any chatbot-specific processing here
-      processedMessage: this.processChatMessage(payload.message),
+      message: messageText,
+      userId,
+      userDisplayName: displayName,
+      sessionId,
+      spaceId,
+      messageType,
+      processedMessage: this.processChatMessage(messageText),
     };
 
-    this.logger.log(`Processed chat webhook for user: ${chatData.userId}`);
-    
+    this.logger.log(`Processed chat webhook for user: ${displayName} (${userId})`);
     return chatData;
   }
 
+  // ✅ Message processor (mock logic)
   private processChatMessage(message?: string): string {
     if (!message) return 'No message to process';
-    
-    // Add your message processing logic here
-    // For example: sentiment analysis, intent detection, etc.
-    
     return `Processed: ${message}`;
   }
 
-  // Method to validate webhook payload
+  // ✅ Payload validation method (optional for middleware/guards)
   validateWebhookPayload(payload: any): boolean {
-    // Add validation logic here
-    // For example: check required fields, validate format, etc.
     return payload && typeof payload === 'object';
   }
-} 
+}
