@@ -102,7 +102,7 @@ export class WebhookController {
       return {
         success: true,
         message: 'Chat webhook processed successfully',
-        data: result,
+        text: result.text,
         timestamp: new Date().toISOString(),
       };
     } catch (error) {
