@@ -1,5 +1,4 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { WebhookDto } from './webhook.controller';
 
 @Injectable()
 export class WebhookService {

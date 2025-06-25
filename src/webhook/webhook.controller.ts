@@ -1,56 +1,6 @@
 import { Controller, Post, Get, Body, HttpCode, HttpStatus, Logger } from '@nestjs/common';
 import { WebhookService } from './webhook.service';
 
-// DTO for webhook payload
-export class WebhookDto {
-  // For general webhook
-  rawMessage?: string;
-  userId?: string;
-  sessionId?: string;
-  timestamp?: string;
-  data?: any;
-
-  // Google Chat specific fields (optional, safely handled)
-  type?: string;
-
-  user?: {
-    name: string; // e.g., users/123456789
-    displayName?: string;
-    email?: string;
-    avatarUrl?: string;
-    type?: string; // HUMAN or BOT
-    domainId?: string;
-  };
-
-  message?: {
-    name: string; // message ID
-    text: string;
-    argumentText?: string;
-    createTime?: string;
-    thread?: {
-      name: string;
-    };
-    space?: {
-      name: string;
-    };
-  };
-
-  space?: {
-    name: string;
-    type?: string;
-    spaceType?: string;
-    spaceHistoryState?: string;
-    spaceThreadingState?: string;
-    singleUserBotDm?: boolean;
-  };
-
-  thread?: {
-    name: string;
-  };
-
-  configCompleteRedirectUrl?: string;
-}
-
 
 @Controller('webhook')
 export class WebhookController {
@@ -68,12 +18,13 @@ export class WebhookController {
       return result;
     } catch (error) {
       this.logger.error(`Error processing webhook: ${error.message}`);
-      return {
-        success: false,
-        message: 'Error processing webhook',
-        error: error.message,
-        timestamp: new Date().toISOString(),
-      };
+      return  error
+      // {
+      //   success: false,
+      //   message: 'Error processing webhook',
+      //   error: error.message,
+      //   timestamp: new Date().toISOString(),
+      // };
     }
   }
 
@@ -97,12 +48,13 @@ export class WebhookController {
       return result;
     } catch (error) {
       this.logger.error(`Error processing chat webhook: ${error.message}`);
-      return {
-        success: false,
-        message: 'Error processing chat webhook',
-        error: error.message,
-        timestamp: new Date().toISOString(),
-      };
+      return error;
+      // {
+      //   success: false,
+      //   message: 'Error processing chat webhook',
+      //   error: error.message,
+      //   timestamp: new Date().toISOString(),
+      // };
     }
   }
 } 
