@@ -29,7 +29,8 @@ export class WebhookService {
 
     const threadName = payload.message?.thread?.name || payload.thread?.name;
 
-    const replyText = `👋 Hello ${userName}, you said: "${messageText}"`;
+    // const replyText = `👋 Hello ${userName}, you said: "${messageText}"`;
+    const replyText = `👋 Hello ${userName} Bhai, I'm ready but not connected to any LLM"`;
 
     const reply = {
       text: replyText,
