@@ -24,13 +24,19 @@ export class WebhookService {
   async processChatWebhook(payload: any) {
     this.logger.log('Processing chat webhook...');
 
-    const messageText = payload?.message?.text || 'No message';
-    const sender = payload?.user?.displayName || 'User';
+    const userName = payload.user?.displayName || 'anonymous';
+    const messageText = payload.message?.text || '';
 
-    // Simple echo logic
-    const reply = `Hello ${sender}, you said: "${messageText}"`;
+    const threadName = payload.message?.thread?.name || payload.thread?.name;
 
-    this.logger.log(`Replying with: ${reply}`);
+    const replyText = `👋 Hello ${userName}, you said: "${messageText}"`;
+
+    const reply = {
+      text: replyText,
+      thread: threadName ? { name: threadName } : undefined,
+    };
+
+    this.logger.log(`Replying with: ${replyText}`);
 
     // ✅ Google Chat requires this structure
     return {
