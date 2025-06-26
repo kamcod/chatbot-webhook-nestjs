@@ -22,7 +22,7 @@ export class WebhookService {
 
   // ✅ Google Chat webhook processor
   async processChatWebhook(payload: any) {
-    this.logger.log('Processing chat webhook...');
+    this.logger.log('Processing chat webhook... type:', payload.type);
 
     const userName = payload.user?.displayName || 'anonymous';
     const messageText = payload.message?.text || '';
@@ -39,9 +39,7 @@ export class WebhookService {
     this.logger.log(`Replying with: ${replyText}`);
 
     // ✅ Google Chat requires this structure
-    return {
-      text: reply
-    };
+    return reply;
   }
 
   // ✅ Message processor (mock logic)
